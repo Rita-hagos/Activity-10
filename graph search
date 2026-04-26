@@ -1,0 +1,84 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <set>
+using namespace std;
+
+class Graph {
+private:
+    unordered_map<char, vector<char>> adjacencyList;
+
+public:
+    void addEdge(char vertex1, char vertex2) {
+        adjacencyList[vertex1].push_back(vertex2);
+        adjacencyList[vertex2].push_back(vertex1);
+    }
+
+ void BFS(char start) {
+set<char> visited;
+queue <char> q;
+
+ visited.insert(start);
+  q.push(start);
+
+ cout << "BFS Traversal: ";
+
+ while (!q.empty()) {
+ char current = q.front();
+ q.pop();
+
+ cout << current << " ";
+
+for (char neighbor : adjacencyList[current]) {
+if (visited.find(neighbor) == visited.end()) {
+    visited.insert(neighbor);
+    q.push(neighbor); }
+     }
+      }
+ cout << endl;
+}
+ void DFS(char start) {
+ set<char> visited;
+ stack<char> s;
+
+ s.push(start);
+
+ cout << "DFS Traversal: ";
+
+ while (!s.empty()) {
+ char current = s.top();
+  s.pop();
+
+ if (visited.find(current) == visited.end()) {
+    visited.insert(current);
+    cout << current << " ";
+
+  for (int i = adjacencyList[current].size() - 1; i >= 0; i--) {
+    char neighbor = adjacencyList[current][i];
+
+  if (visited.find(neighbor) == visited.end()) {
+   s.push(neighbor); }
+    }
+     }
+       }
+ cout << endl;
+}
+  };
+
+int main(){
+    Graph graph;
+
+    graph.addEdge('A', 'B');
+    graph.addEdge('A', 'C');
+    graph.addEdge('B', 'D');
+    graph.addEdge('B', 'E');
+    graph.addEdge('C', 'F');
+    graph.addEdge('E', 'F');
+
+    graph.BFS('A');
+    graph.DFS('A');
+
+    return 0;
+}
